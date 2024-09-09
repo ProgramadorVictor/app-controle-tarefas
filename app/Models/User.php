@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Notifications\RedefinirSenhaNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -40,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    //Você deve subscrever os métodos caso seja necessário fora das depêndencias, não nas depêndencias, caso ocorra uma atualização ja era alteração la nas depêndencias
+    public function sendPasswordResetNotification($token){
+        $this->notify(new RedefinirSenhaNotification($token, $this->email, $this->name));
+    }
 }
