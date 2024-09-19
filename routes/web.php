@@ -2,28 +2,20 @@
 
 use App\Mail\MensagemTesteMail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Messages\MailMessage;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TarefaController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => true]); //Laravel UI, com auth próprio deles. php artisan ui bootstrap --auth
 
 Route::group(['middleware' => 'verified'], function(){
-    Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-    Route::resource('/tarefa', 'App\Http\Controllers\TarefaController');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('/tarefa', TarefaController::class);
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
