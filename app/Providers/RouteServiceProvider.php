@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/tarefa'; //Automaticamente sendo redirecionados para a rota tarefa, após autenticação, alterando a pagina padrão.
 
     /**
      * The controller namespace for the application.

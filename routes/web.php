@@ -14,7 +14,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]); //Laravel UI, com auth próprio deles. php artisan ui bootstrap --auth
 
 Route::group(['middleware' => 'verified'], function(){
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Route::get('/home', [HomeController::class, 'index'])->name('home'); //Comentamos a rota homa, não sendo necessária mais.
     Route::resource('/tarefa', TarefaController::class);
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
