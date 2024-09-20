@@ -21,14 +21,15 @@ class TarefaController extends Controller
     public function index()
     {
         // !Auth::check(); == !auth()->check();
-        if(!auth()->check()){
-            return "Você não está logado no sistema";
-        }
-        $id = Auth::user()->id;
-        $nome = Auth::user()->name;
-        $email = auth()->user()->email;
-        dump($id, $nome, $email);
-        return "Você esta logado no sistema";
+        // if(!auth()->check()){
+        //     return "Você não está logado no sistema";
+        // }
+        // $id = Auth::user()->id;
+        // $nome = Auth::user()->name;
+        // $email = auth()->user()->email;
+        // dump($id, $nome, $email);
+        $tarefas = Tarefa::where('user_id', auth()->user()->id)->paginate(2);
+        return view('tarefa.index', ['tarefas' => $tarefas]);
     }
 
     /**
@@ -49,7 +50,9 @@ class TarefaController extends Controller
      */
     public function store(Request $request)
     {
-        $tarefa = Tarefa::create($request->all()); //Sem validação
+        $dados = $request->only(['tarefa','data_limite_conclusao']);
+        $dados['user_id'] = auth()->user()->id;
+        $tarefa = Tarefa::create($dados); //Sem validação
         Mail::to(auth()->user()->email)->send(new NovaTarefaEmail($tarefa));
         return redirect()->route('tarefa.show', ['tarefa' => $tarefa->id]);
     }
