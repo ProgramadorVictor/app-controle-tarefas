@@ -76,7 +76,10 @@ class TarefaController extends Controller
      */
     public function edit(Tarefa $tarefa)
     {
-        //
+        if(auth()->user()->id == $tarefa->user_id){
+            return view('tarefa.edit', ['tarefa' => $tarefa]);
+        }
+        return view('acesso-negado');
     }
 
     /**
@@ -88,7 +91,11 @@ class TarefaController extends Controller
      */
     public function update(Request $request, Tarefa $tarefa)
     {
-        //
+        if(auth()->user()->id == $tarefa->user_id){
+            $tarefa->update($request->all()); //Sem validação.
+            return redirect()->route('tarefa.show', ['tarefa' => $tarefa]);
+        }
+        return view('acesso-negado');
     }
 
     /**
@@ -99,6 +106,10 @@ class TarefaController extends Controller
      */
     public function destroy(Tarefa $tarefa)
     {
-        //
+        if(auth()->user()->id == $tarefa->user_id){
+            $tarefa->delete();
+            return redirect()->route('tarefa.index');
+        }
+        return view('acesso-negado');
     }
 }

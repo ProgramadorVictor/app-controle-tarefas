@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Tarefas</div>
+                <div class="card-header">Tarefas <a href="{{route('tarefa.create')}}" class="float-right">Novo</a></div>
                     <div class="card-body">
                     <table class="table">
                         <thead>
@@ -13,6 +13,8 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Tarefa</th>
                                 <th scope="col">Data limite conclusão</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -21,6 +23,14 @@
                                     <th scope="row">{{$tarefa->id}}</th>
                                     <td>{{$tarefa->tarefa}}</td>
                                     <td>{{date('d/m/Y', strtotime($tarefa->data_limite_conclusao))}}</td>
+                                    <td><a href="{{route('tarefa.edit', ['tarefa' => $tarefa])}}">Editar</a></td>
+                                    <td>
+                                        <form id="form_{{$tarefa->id}}" action="{{route('tarefa.destroy', ['tarefa' => $tarefa])}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <a href="#" onclick="document.getElementById('form_{{$tarefa->id}}').submit();">Excluir</a>
+                                        </form>
+                                    </td>
                                 </tr>
                                 @empty
                                     {{'Você não tem tarefas cadastradas'}}

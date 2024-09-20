@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{$tarefa->$tarefa}}</div>
+                <div class="card-header">{{$tarefa->tarefa}}</div>
                 <fieldset disabled="disabled">
                     {{-- Gostei da ideia de usar fieldset disabled para desabilizar os campos dentro dele. --}}
                     <div class="card-body">
